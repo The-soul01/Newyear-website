@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy New Year My Love</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', 'Palatino', serif;
+            overflow-x: hidden;
+            background: #1a1a2e;
+        }
+
+        .page {
+            min-height: 100vh;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+            position: relative;
+            overflow: hidden;
+            opacity: 0;
+            transform: scale(0.95);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .page.active {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .page.hidden {
+            display: none;
+        }
+
+        /* Page 1 - Welcome */
+        #page1 {
+            background: linear-gradient(135deg, #ffd1dc 0%, #ffb6c1 50%, #ffccd5 100%);
+        }
+
+        /* Page 2 - Wishes */
+        #page2 {
+            background: linear-gradient(135deg, #e6e6fa 0%, #d8bfd8 50%, #dda0dd 100%);
+        }
+
+        /* Page 3 - From Heart */
+        #page3 {
+            background: linear-gradient(135deg, #ffb6c1 0%, #ffc0cb 50%, #ff69b4 100%);
+        }
+
+        .content {
+            max-width: 800px;
+            text-align: center;
+            z-index: 10;
+            position: relative;
+        }
+
+        h1 {
+            font-size: clamp(2.5rem, 8vw, 5rem);
+            color: #fff;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.8),
+                         0 0 40px rgba(255, 182, 193, 0.6),
+                         0 0 60px rgba(255, 182, 193, 0.4);
+            margin-bottom: 20px;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from {
+                text-shadow: 0 0 20px rgba(255, 255, 255, 0.8),
+                             0 0 40px rgba(255, 182, 193, 0.6),
+                             0 0 60px rgba(255, 182, 193, 0.4);
+            }
+            to {
+                text-shadow: 0 0 30px rgba(255, 255, 255, 1),
+                             0 0 60px rgba(255, 182, 193, 0.8),
+                             0 0 90px rgba(255, 182, 193, 0.6);
+            }
+        }
+
+        .name {
+            font-size: clamp(2rem, 6vw, 4rem);
+            color: #fff;
+            font-style: italic;
+            margin: 20px 0;
+            text-shadow: 0 0 15px rgba(255, 105, 180, 0.8);
+        }
+
+        p {
+            font-size: clamp(1.1rem, 3vw, 1.5rem);
+            color: #fff;
+            line-height: 1.8;
+            margin: 30px 0;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn {
+            padding: 18px 50px;
+            font-size: clamp(1.1rem, 3vw, 1.4rem);
+            background: linear-gradient(135deg, #ff69b4, #ff1493);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            margin-top: 40px;
+            box-shadow: 0 10px 30px rgba(255, 20, 147, 0.4);
+            transition: all 0.3s ease;
+            font-family: inherit;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: bold;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 15px 40px rgba(255, 20, 147, 0.6);
+        }
+
+        /* Hearts Animation */
+        .heart {
+            position: absolute;
+            font-size: 30px;
+            color: #ff69b4;
+            opacity: 0.7;
+            animation: floatHeart 8s infinite ease-in-out;
+            pointer-events: none;
+        }
+
+        @keyframes floatHeart {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.7;
+            }
+            90% {
+                opacity: 0.7;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Petals Animation */
+        .petal {
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            background: linear-gradient(135deg, #ffc0cb, #ffb6c1);
+            border-radius: 50% 0 50% 0;
+            opacity: 0.8;
+            animation: fallPetal 10s infinite ease-in;
+            pointer-events: none;
+        }
+
+        @keyframes fallPetal {
+            0% {
+                transform: translateY(-100px) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+
+        /* Confetti Animation */
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: #ff69b4;
+            opacity: 1;
+            animation: explode 1s ease-out forwards;
+            pointer-events: none;
+        }
+
+        @keyframes explode {
+            0% {
+                transform: translate(0, 0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(var(--tx), var(--ty)) rotate(720deg);
+                opacity: 0;
+            }
+        }
+
+        /* Sparkles */
+        .sparkle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: white;
+            border-radius: 50%;
+            opacity: 0;
+            animation: sparkleAnim 2s infinite ease-in-out;
+            pointer-events: none;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+        }
+
+        @keyframes sparkleAnim {
+            0%, 100% {
+                opacity: 0;
+                transform: scale(0);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .content {
+                padding: 20px;
+            }
+            
+            p {
+                font-size: 1.1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Page 1: Welcome -->
+    <div id="page1" class="page active">
+        <div class="content">
+            <h1>Happy New Year</h1>
+            <p class="name" id="personName">My Love</p>
+            <p>As we step into this beautiful new year together, my heart overflows with love and joy. You are the sparkle in my every moment, the warmth in my coldest days, and the dream I never want to wake up from. This year is ours, filled with endless possibilities and sweet memories waiting to be created.</p>
+            <button class="btn" onclick="nextPage(2)">Continue ♥</button>
+        </div>
+    </div>
+
+    <!-- Page 2: Wishes -->
+    <div id="page2" class="page hidden">
+        <div class="content">
+            <h1>My Wishes For You</h1>
+            <p>My dearest, as this new year unfolds like the petals of a blooming rose, I wish for you a life filled with radiant health that keeps your beautiful smile glowing every single day. May happiness follow you like a gentle shadow, wrapping you in warmth and comfort wherever you go. I wish for success to grace every step you take, turning your dreams into reality and your hopes into achievements. May you conquer every goal you set your heart upon, reaching heights beyond your wildest imagination. I wish for endless laughter to fill your days, for peace to cradle your nights, and for love to surround you always—especially mine, which grows stronger with every heartbeat. You deserve nothing less than the entire universe, and I'll spend every moment of this year showing you just how extraordinary you are.</p>
+            <button class="btn" onclick="nextPage(3)">Next ♥</button>
+        </div>
+    </div>
+
+    <!-- Page 3: From Heart -->
+    <div id="page3" class="page hidden">
+        <div class="content">
+            <h1>From My Heart</h1>
+            <p>There are no words in any language that could truly capture how deeply you've become woven into the fabric of my soul. You are not just important to me—you are essential, like air to breathe, like sunlight to the dawn. Loving you is the easiest and most natural thing I've ever done, yet it fills me with a wonder that never fades. Every moment with you feels like a gift I never knew I needed, and every day I discover new reasons why you're the most incredible person I've ever known. Thank you for being you—for your kindness, your laughter, your beautiful heart that makes this world a better place. Thank you for choosing to share your life with me, for loving me in ways I never imagined possible. As we embrace this new year together, know that my love for you is infinite, unchanging, and forever growing. You are my today, my tomorrow, and all my tomorrows after that. Happy New Year, my everything. I love you more than words could ever express.</p>
+            <p style="margin-top: 50px; font-size: 2rem; color: #fff; text-shadow: 0 0 20px rgba(255, 105, 180, 0.8);">Forever Yours ♥</p>
+        </div>
+    </div>
+
+    <script>
+        // Get name from URL parameter
+        const urlParams = new URLSearchParams(window.location.search);
+        const name = urlParams.get('name');
+        if (name) {
+            document.getElementById('personName').textContent = name;
+        }
+
+        let currentPage = 1;
+
+        function nextPage(pageNum) {
+            const current = document.getElementById('page' + currentPage);
+            const next = document.getElementById('page' + pageNum);
+            
+            // Create confetti burst
+            createConfetti(event.clientX || window.innerWidth / 2, event.clientY || window.innerHeight / 2);
+            
+            // Transition
+            current.classList.remove('active');
+            setTimeout(() => {
+                current.classList.add('hidden');
+                next.classList.remove('hidden');
+                setTimeout(() => {
+                    next.classList.add('active');
+                }, 50);
+            }, 800);
+            
+            currentPage = pageNum;
+        }
+
+        // Create floating hearts
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.className = 'heart';
+            heart.innerHTML = '♥';
+            heart.style.left = Math.random() * 100 + '%';
+            heart.style.animationDuration = (Math.random() * 4 + 6) + 's';
+            heart.style.animationDelay = Math.random() * 2 + 's';
+            heart.style.fontSize = (Math.random() * 20 + 20) + 'px';
+            document.body.appendChild(heart);
+            
+            setTimeout(() => heart.remove(), 10000);
+        }
+
+        // Create falling petals
+        function createPetal() {
+            const petal = document.createElement('div');
+            petal.className = 'petal';
+            petal.style.left = Math.random() * 100 + '%';
+            petal.style.animationDuration = (Math.random() * 5 + 8) + 's';
+            petal.style.animationDelay = Math.random() * 3 + 's';
+            document.body.appendChild(petal);
+            
+            setTimeout(() => petal.remove(), 13000);
+        }
+
+        // Create sparkles
+        function createSparkle() {
+            const sparkle = document.createElement('div');
+            sparkle.className = 'sparkle';
+            sparkle.style.left = Math.random() * 100 + '%';
+            sparkle.style.top = Math.random() * 100 + '%';
+            sparkle.style.animationDelay = Math.random() * 2 + 's';
+            document.body.appendChild(sparkle);
+            
+            setTimeout(() => sparkle.remove(), 2000);
+        }
+
+        // Create confetti burst
+        function createConfetti(x, y) {
+            const colors = ['#ff69b4', '#ffc0cb', '#ff1493', '#ffb6c1', '#fff'];
+            for (let i = 0; i < 30; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = x + 'px';
+                confetti.style.top = y + 'px';
+                confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+                
+                const angle = (Math.PI * 2 * i) / 30;
+                const velocity = Math.random() * 200 + 100;
+                const tx = Math.cos(angle) * velocity;
+                const ty = Math.sin(angle) * velocity;
+                
+                confetti.style.setProperty('--tx', tx + 'px');
+                confetti.style.setProperty('--ty', ty + 'px');
+                
+                document.body.appendChild(confetti);
+                
+                setTimeout(() => confetti.remove(), 1000);
+            }
+        }
+
+        // Generate animations
+        setInterval(createHeart, 800);
+        setInterval(createPetal, 500);
+        setInterval(createSparkle, 300);
+
+        // Initial burst
+        for (let i = 0; i < 10; i++) {
+            setTimeout(createHeart, i * 200);
+            setTimeout(createPetal, i * 150);
+        }
+    </script>
+</body>
+</html>
